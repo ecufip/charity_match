@@ -1,0 +1,11 @@
+#!/Users/samclose/Documents/Computing_primary/courses/edx_cs50/final_project/ENV/bin/python3.5
+
+# -*- coding: utf-8 -*-
+import re
+import sys
+
+from wheel.tool import main
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
