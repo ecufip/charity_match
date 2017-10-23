@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    charity
+{% endblock %}
+
+{% block main %}
+<form action="{{ url_for('register') }}" method=post class=register>
+  <dl>
+    <dt>Name:
+    <dd><input type=text size=30 name=name>
+    <dt>Registration no:
+    <dd><input type=number size=30 name=regNo>
+    <dt>Postcode:
+    <dd><input type=text size=30 name=postCode>
+    <dt>Address:
+    <dd><input type=text size=30 name=address>
+    <dt>Description:
+    <dd><input type=text size=30 name=description>
+    <dd><input type=submit value=Register>
+  </dl>
+</form>
+{% endblock %}

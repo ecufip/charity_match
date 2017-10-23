@@ -16,7 +16,6 @@ app.config.update(dict(
 ))
 app.config.from_envvar('APPLICATION_SETTINGS', silent=True)
 
-
 def connect_db():
     """Connects to database"""
     rv = sqlite3.connect(app.config['DATABASE'])
@@ -32,6 +31,12 @@ def get_db():
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
+
 def init_db():
     """Initializes the database"""
     db = get_db()
@@ -45,22 +50,25 @@ def initdb_command():
     init_db()
     print('Initialized the database.')
 
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
 @app.route('/')
-def show_charities():
+def index():
     db = get_db()
-    cur = db.execute('select name, description from charities order by id desc')
-    entries = cur.fetchall()
-    return render_template('index.html', charity="name")
+    charities = db.execute('select * from charities order by id desc').fetchall()
+    return render_template('index.html', charity='name', charities=charities)
 
-@app.route('/register')
+@app.route('/register', methods=['POST', 'GET'])
 def register():
-    return 'TODO'
+    if request.method == 'POST':
+        db = get_db()
+        db.execute('insert into charities (name, regNo, postCode, address, description) values (?, ?, ?, ?, ?)',
+                    [request.form['name'], request.form['regNo'],
+                    request.form['postCode'], request.form['address'],
+                    request.form['description']])
+        db.commit()
+        flash('New charity was successfully registered')
+        return redirect(url_for('index'))
+    else:
+        return render_template('register.html')
 
 @app.route('/login')
 def login():
