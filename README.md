@@ -3,10 +3,26 @@
 An app to match companies with charities in India.
 
 ## To create database ##
+From command line - deletes existing db
         $ flask initdb
 
+## To activate virtualenv ##
+In root:
+        $ source ENV/bin/activate
+
+To deactivate:
+        $ deactivate
+
+## To install ##
+Within virtualenv
+
+        $ python setup.py install
+
 ## To run ##
-        $ export FLASK_APP=application
-        $ export FLASK_DEBUG=true
+
+        $ export FLASK_APP=application; export FLASK_DEBUG=true
         $ flask run
 
+## Requirements ##
+Flask
+passlib

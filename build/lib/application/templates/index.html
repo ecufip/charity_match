@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+    <h1>CSR match India</h2>
+    <h2>Registered charities:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for charity in charities %}
+            <tr>
+                <td>{{ charity.name }}</td>
+                <td>{{ charity.description }}</td>
+                <td>{{ charity.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
