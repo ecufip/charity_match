@@ -7,5 +7,5 @@ create table charities (
   postCode text,
   address text,
   description text,
-  password text
+  password text not null
 );

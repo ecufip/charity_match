@@ -53,21 +53,31 @@ def initdb_command():
 
 @app.route('/')
 def index():
+    # accesses database and returns all charities to index template
     db = get_db()
-    charities = db.execute('select * from charities order by id desc').fetchall()
+    charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
     return render_template('index.html', charity='name', charities=charities)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
+    # inserts new charity into database
     if request.method == 'POST':
+        # encrypt the password
+        hash = pwd_context.hash(request.form.get("password"))
+        # insert to db
         db = get_db()
-        db.execute('insert into charities (name, regNo, postCode, address, description) values (?, ?, ?, ?, ?)',
-                    [request.form['name'], request.form['regNo'],
-                    request.form['postCode'], request.form['address'],
-                    request.form['description']])
+        db.execute('''
+                   INSERT INTO charities (name, email, regNo, postCode, address, description, password)
+                   VALUES (?, ?, ?, ?, ?, ?, ?)
+                   ''', 
+                    [request.form['name'], request.form['email'], request.form['regNo'], request.form['postCode'], 
+                    request.form['address'],request.form['description'], hash]
+                   )
         db.commit()
         flash('New charity was successfully registered')
         return redirect(url_for('index'))
+    
+    # shows registration form
     else:
         return render_template('register.html')
 

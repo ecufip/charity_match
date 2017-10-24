@@ -3,7 +3,8 @@
 An app to match companies with charities in India.
 
 ## To create database ##
-From command line - deletes existing db
+From command line - deletes existing db:
+
         $ flask initdb
 
 ## To activate virtualenv ##
