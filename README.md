@@ -20,6 +20,7 @@ Within virtualenv
         $ python setup.py install
 
 ## To run ##
+After activating virtualenv:
 
         $ export FLASK_APP=application; export FLASK_DEBUG=true
         $ flask run
