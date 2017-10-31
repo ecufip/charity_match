@@ -6,12 +6,13 @@
 
 {% block main %}
 
-    <h1>CSR match India</h2>
+    <h1>CSR Net India</h2>
     <h2>Registered charities:</h2>
     <table>
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Description</th>
                 <th>Address</th>
             </tr>
@@ -20,6 +21,7 @@
             {% for charity in charities %}
             <tr>
                 <td>{{ charity.name }}</td>
+                <td>{{ charity.email }}</td>
                 <td>{{ charity.description }}</td>
                 <td>{{ charity.address }}</td>
             </tr>

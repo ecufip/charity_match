@@ -53,19 +53,23 @@ def initdb_command():
 
 @app.route('/')
 def index():
-    # accesses database and returns all charities to index template
+    """ Accesses database and returns all charities to index template """
     db = get_db()
     charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
     return render_template('index.html', charities=charities)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    # inserts new charity into database
+    """ Inserts new charity into database """
     if request.method == 'POST':
+        
         # encrypt the password
         hash = pwd_context.hash(request.form.get("password"))
-        # insert to db
+        
+        # open db connection
         db = get_db()
+        
+        # insert form information into database
         db.execute('''
                    INSERT INTO charities (name, email, regNo, postCode, address, description, password)
                    VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -73,14 +77,55 @@ def register():
                     [request.form['name'], request.form['email'], request.form['regNo'], request.form['postCode'], 
                     request.form['address'],request.form['description'], hash]
                    )
+        
+        # commit changes
         db.commit()
+
+        db.close()
+
         flash('New charity was successfully registered')
-        return redirect(url_for('index'))
+
+        # direct to account homepage
+        return redirect(url_for('account'))
     
     # shows registration form
     else:
         return render_template('register.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return 'TODO'
+    """Log user in."""
+    if request.method == 'POST':
+
+        # forget any user_id
+        session.clear()
+        
+        # ensure username was submitted
+        if not request.form.get("email"):
+            return "must provide email"
+
+        # ensure password was submitted
+        elif not request.form.get("password"):
+            return "must provide password"
+        
+        # open db connection
+        db = get_db()
+
+        # open cursor
+        cur = db.cursor()
+        
+        # query database for username - use request.form.get() not request.form[] as won't throw error
+        cur.execute("SELECT * FROM charities WHERE email = ?", [request.form.get('email')])
+        rows = cur.fetchall()
+        
+        # close cursor
+        cur.close()
+
+        return render_template('account.html', email = rows[0]['email'])
+    
+    else:
+        return render_template('login.html')
+
+@app.route('/account')
+def account():
+    return render_template('account.html')
