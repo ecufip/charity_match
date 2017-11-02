@@ -87,6 +87,9 @@ def register():
 
         flash('New charity was successfully registered')
 
+        # update session information
+        session['email'] = request.form.get('email')
+
         # direct to account homepage
         return redirect(url_for('account'))
     
