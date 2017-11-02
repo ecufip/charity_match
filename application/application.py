@@ -94,32 +94,36 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """Log user in."""
+    '''Log user in.'''
     if request.method == 'POST':
 
         # forget any user_id
         session.clear()
         
         # ensure username was submitted
-        if not request.form.get("email"):
-            return "must provide email"
+        if not request.form.get('email'):
+            return 'must provide email'
 
         # ensure password was submitted
-        elif not request.form.get("password"):
-            return "must provide password"
+        elif not request.form.get('password'):
+            return 'must provide password'
         
         # open db connection
         db = get_db()
 
-        # open cursor
+        # open cursor - required for fetching results
         cur = db.cursor()
         
         # query database for username - use request.form.get() not request.form[] as won't throw error
-        cur.execute("SELECT * FROM charities WHERE email = ?", [request.form.get('email')])
+        cur.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')])
         rows = cur.fetchall()
+
+        # ensure email exists and password is correct
+        if len(rows) != 1 or not pwd_context.verify(request.form.get('password'), rows[0]['password']):
+            return 'invalid email or password'
         
-        # close cursor
-        cur.close()
+        # close db
+        db.close()
 
         return render_template('account.html', email = rows[0]['email'])
     
