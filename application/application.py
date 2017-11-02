@@ -56,7 +56,7 @@ def index():
     """ Accesses database and returns all charities to index template """
     db = get_db()
     charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
-    return render_template('index.html', charities=charities)
+    return render_template('index.html', charities=charities, user=session['email'])
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -118,14 +118,17 @@ def login():
         cur.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')])
         rows = cur.fetchall()
 
-        # ensure email exists and password is correct
+        # ensure email exists and password is correct - pwd_context de-hashes password and compares
         if len(rows) != 1 or not pwd_context.verify(request.form.get('password'), rows[0]['password']):
             return 'invalid email or password'
+        
+        # update session information
+        session['email'] = request.form.get('email')
         
         # close db
         db.close()
 
-        return render_template('account.html', email = rows[0]['email'])
+        return render_template('account.html', email = session['email'])
     
     else:
         return render_template('login.html')
