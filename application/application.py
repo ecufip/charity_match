@@ -58,7 +58,7 @@ def index():
     '''Accesses database and returns all charities to index template'''
     db = get_db()
     charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
-    return render_template('index.html', charities=charities, user=session['email'])
+    return render_template('index.html', charities=charities)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
