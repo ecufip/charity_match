@@ -7,11 +7,6 @@ From command line - deletes existing db:
 
         $ flask initdb
 
-## To install ##
-Within virtualenv
-
-        $ python setup.py install
-        
 ## To activate virtualenv ##
 In root:
         $ source ENV/bin/activate
@@ -19,6 +14,11 @@ In root:
 To deactivate:
         $ deactivate
 
+## To install dependencies ##
+Within virtualenv
+
+        $ python setup.py develop
+        
 ## To run ##
 After activating virtualenv:
 
