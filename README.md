@@ -9,9 +9,11 @@ From command line - deletes existing db:
 
 ## To activate virtualenv ##
 In root:
+        
         $ source ENV/bin/activate
 
 To deactivate:
+        
         $ deactivate
 
 ## To install dependencies ##
