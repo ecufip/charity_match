@@ -28,5 +28,7 @@ After activating virtualenv:
         $ flask run
 
 ## Requirements ##
+- python3
+- SQLite
 - Flask
 - passlib
