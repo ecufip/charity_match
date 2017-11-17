@@ -8,7 +8,7 @@ def login_required(f):
     '''
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get('email') is None:
+        if session.get('charityId') is None:
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function

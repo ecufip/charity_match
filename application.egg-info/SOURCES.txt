@@ -11,6 +11,7 @@ application.egg-info/requires.txt
 application.egg-info/top_level.txt
 application/static/style.css
 application/templates/account.html
+application/templates/add_project.html
 application/templates/index.html
 application/templates/layout.html
 application/templates/login.html

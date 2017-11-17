@@ -1,8 +1,7 @@
 # all the imports
 import os
 import sqlite3
-from flask import Flask, request, session, g, redirect, url_for, abort, \
-render_template, flash
+from flask import Flask, request, session, g, redirect, url_for, abort, render_template
 from passlib.apps import custom_app_context as pwd_context
 
 from .helpers import *
@@ -67,28 +66,35 @@ def register():
         
         # encrypt the password
         hash = pwd_context.hash(request.form.get('password'))
-        
+
         # open db connection
         db = get_db()
+
+        # add validation to check if email already exists
         
         # insert form information into database
         db.execute('''
-                   INSERT INTO charities (name, email, regNo, postCode, address, description, password)
-                   VALUES (?, ?, ?, ?, ?, ?, ?)
+                   INSERT INTO charities (name, email, description, password)
+                   VALUES (?, ?, ?, ?)
                    ''', 
-                    [request.form['name'], request.form['email'], request.form['regNo'], request.form['postCode'], 
-                    request.form['address'],request.form['description'], hash]
+                    [request.form['name'], request.form['email'],
+                    request.form['description'], hash]
                    )
+
+        # open cursor - required for fetching results
+        cur = db.cursor()
+
+        # carry out query to select data that matches email
+        cur.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')])
+        rows = cur.fetchall()
+        
+        # update session information
+        session['charityId'] = rows[0]['id']
         
         # commit changes
         db.commit()
 
         db.close()
-
-        flash('New charity was successfully registered')
-
-        # update session information
-        session['email'] = request.form.get('email')
 
         # direct to account homepage
         return redirect(url_for('account'))
@@ -128,7 +134,7 @@ def login():
             return 'invalid email or password'
         
         # update session information
-        session['email'] = request.form.get('email')
+        session['charityId'] = rows[0]['id']
         
         # close db
         db.close()
@@ -150,4 +156,34 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html', email = session['email'])
+    return render_template('account.html', id = session['charityId'])
+
+@app.route('/add-project', methods=['GET', 'POST'])
+@login_required
+def add_project():
+    ''' Adding a project '''
+
+    if request.method == 'POST':
+        # open db connection
+        db = get_db()
+        
+        # insert form information into database
+        db.execute('''
+                   INSERT INTO projects (name, charityId, description)
+                   VALUES (?, ?, ?)
+                   ''', 
+                    [request.form['name'], session['charityId'], request.form['description']]
+                   )
+        
+        # commit changes
+        db.commit()
+
+        db.close()
+
+        return 'complete'
+
+    else:
+        return render_template('add_project.html')
+
+
+# @app.route('/project')

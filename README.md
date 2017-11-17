@@ -26,5 +26,5 @@ After activating virtualenv:
         $ flask run
 
 ## Requirements ##
-Flask
-passlib
+- Flask
+- passlib

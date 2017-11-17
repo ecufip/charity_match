@@ -6,6 +6,6 @@ setup(
     include_package_data=True,
     install_requires=[
         'flask==0.12.1', 
-        'flask_passlib'
+        'passlib==1.7.0'
     ]
 )
