@@ -12,7 +12,7 @@ app.config.from_object(__name__) # load config from this file
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'application.db'),
-    SECRET_KEY='csrm1tch3nd31',
+    SECRET_KEY='csrmatchindia',
     USERNAME='admin',
     PASSWORD='default'
 ))
