@@ -5,5 +5,25 @@
 {% endblock %}
 
 {% block main %}
+<h1>{{ name }}</h2>
+    <h2>Projects:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}
+            <tr>
+                <td>{{ project.name }}</td>
+                <td>{{ project.id }}</td>
+                <td>{{ project.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 Account id: {{ id }}
 {% endblock %}

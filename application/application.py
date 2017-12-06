@@ -57,6 +57,7 @@ def index():
     '''Accesses database and returns all charities to index template'''
     db = get_db()
     charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
+    db.close()
     return render_template('index.html', charities=charities)
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -81,15 +82,12 @@ def register():
                     request.form['description'], hash]
                    )
 
-        # open cursor - required for fetching results
-        cur = db.cursor()
-
         # carry out query to select data that matches email
-        cur.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')])
-        rows = cur.fetchall()
+        rows = db.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')]).fetchall()
         
         # update session information
         session['charityId'] = rows[0]['id']
+        session['charityName'] = rows[0]['name']
         
         # commit changes
         db.commit()
@@ -121,13 +119,9 @@ def login():
         
         # open db connection
         db = get_db()
-
-        # open cursor - required for fetching results
-        cur = db.cursor()
         
         # query database for username - use request.form.get() not request.form[] as won't throw error
-        cur.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')])
-        rows = cur.fetchall()
+        rows = db.execute('SELECT * FROM charities WHERE email = ?', [request.form.get('email')]).fetchall()
 
         # ensure email exists and password is correct - pwd_context de-hashes password and compares
         if len(rows) != 1 or not pwd_context.verify(request.form.get('password'), rows[0]['password']):
@@ -135,6 +129,7 @@ def login():
         
         # update session information
         session['charityId'] = rows[0]['id']
+        session['charityName'] = rows[0]['name']
         
         # close db
         db.close()
@@ -156,7 +151,17 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html', id = session['charityId'])
+    # open db connection
+    db = get_db()
+
+    # return all project where the charity id is the same as the logged in project
+    projects = db.execute('SELECT * FROM projects WHERE charityId = ? ORDER BY name DESC', 
+                            [session['charityId']]).fetchall()
+    
+    # close db connection
+    db.close()
+
+    return render_template('account.html', id = session['charityId'], name = session['charityName'], projects=projects)
 
 @app.route('/add-project', methods=['GET', 'POST'])
 @login_required
@@ -186,4 +191,6 @@ def add_project():
         return render_template('add_project.html')
 
 
-# @app.route('/project')
+@app.route('/project')
+def project_page():
+    return('project')
