@@ -56,9 +56,14 @@ def initdb_command():
 def index():
     '''Accesses database and returns all charities to index template'''
     db = get_db()
-    charities = db.execute('SELECT * FROM charities ORDER BY id DESC').fetchall()
+    projects = db.execute('''
+                          SELECT * , charities.name AS charity
+                          FROM projects 
+                          INNER JOIN charities ON projects.charityId = charities.id
+                          ORDER BY name DESC
+                          ''').fetchall()
     db.close()
-    return render_template('index.html', charities=charities)
+    return render_template('index.html', projects=projects)
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -191,6 +196,18 @@ def add_project():
         return render_template('add_project.html')
 
 
-@app.route('/project')
-def project_page():
-    return('project')
+@app.route('/project/<projectId>')
+def project_page(projectId):
+     # open db connection
+    db = get_db()
+
+    # return all project where the charity id is the same as the logged in project
+    project = db.execute('SELECT * FROM projects WHERE id = ? ORDER BY name DESC', 
+                            projectId).fetchall()[0]
+    
+    # close db connection
+    db.close()
+
+    print(project)
+
+    return render_template('project.html', project = project)

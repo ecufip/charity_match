@@ -12,16 +12,16 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Charity ID</th>
                 <th>Description</th>
             </tr>
         </thead>
         <tbody>
-            {% for charity in charities %}
+            {% for project in projects %}
             <tr>
-                <td>{{ charity.name }}</td>
-                <td>{{ charity.email }}</td>
-                <td>{{ charity.description }}</td>
+                <td><a href="/project/{{ project.id }}">{{ project.name }}</a></td>
+                <td>{{ project.charity }}</td>
+                <td>{{ project.description }}</td>
             </tr>
             {% endfor %}
         </tbody>
