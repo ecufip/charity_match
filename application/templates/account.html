@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block main %}
-<h1>{{ name }}</h2>
-    <h2>Projects:</h2>
+<h1>{{ name }}</h1>
+<h2>Projects:</h2>
+<section>
     <table>
         <thead>
             <tr>
@@ -18,12 +19,22 @@
         <tbody>
             {% for project in projects %}
             <tr>
-                <td>{{ project.name }}</td>
+                <td><a href="/project/{{ project.id }}">{{ project.name }}</a></td>
                 <td>{{ project.id }}</td>
                 <td>{{ project.description }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-Account id: {{ id }}
+</section>
+<section>
+    <form action="/">
+        <input type="submit" value="Home" />
+    </form>
+    <form action="/add-project">
+        <input type="submit" value="New project" />
+    </form>
+</section>
+
+
 {% endblock %}
