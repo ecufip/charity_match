@@ -12,7 +12,7 @@ app.config.from_object(__name__) # load config from this file
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'application.db'),
-    SECRET_KEY='csrmatchindia',
+    SECRET_KEY='csrmatch',
     USERNAME='admin',
     PASSWORD='default'
 ))
@@ -156,6 +156,7 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
+    ''' render account homepage with charity and projects'''
     # open db connection
     db = get_db()
 
@@ -166,13 +167,12 @@ def account():
     # close db connection
     db.close()
 
-    return render_template('account.html', id = session['charityId'], name = session['charityName'], projects=projects)
+    return render_template('account.html', name = session['charityName'], projects=projects)
 
 @app.route('/add-project', methods=['GET', 'POST'])
 @login_required
 def add_project():
     ''' Adding a project '''
-
     if request.method == 'POST':
         # open db connection
         db = get_db()

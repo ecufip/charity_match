@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-<h1>{{ name }}</h1>
+<h1>{{ name }} homepage</h1>
 <h2>Projects:</h2>
 <section>
     <table>
@@ -28,13 +28,8 @@
     </table>
 </section>
 <section>
-    <form action="/">
-        <input type="submit" value="Home" />
-    </form>
     <form action="/add-project">
         <input type="submit" value="New project" />
     </form>
 </section>
-
-
 {% endblock %}
