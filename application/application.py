@@ -190,7 +190,8 @@ def add_project():
 
         db.close()
 
-        return 'complete'
+        # direct to account homepage
+        return redirect(url_for('account'))
 
     else:
         return render_template('add_project.html')
