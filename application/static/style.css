@@ -1,6 +1,7 @@
 p {
     font-family: Arial;
-    font-size: 20pt;
+    font-size: 10pt;
+    font: black;
 }
 tbody {
     font-weight: normal; 
@@ -10,4 +11,24 @@ table {
 }
 table, th, td {
     border: 1px solid black;
+}
+body {
+    padding-top: 54px;
+}
+.card-img-top {
+    width: 100%;
+    height: 150px;
+}
+.portfolio-item {
+    margin-bottom: 30px;
+}
+a.session-card-link:link {
+    color: black;
+}
+a.session-card-link:hover {
+    color: black;
+}
+.proj-page-img{
+    width: 100%;
+    height: 500px;
 }

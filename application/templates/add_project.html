@@ -5,13 +5,20 @@
 {% endblock %}
 
 {% block main %}
-<form action="{{ url_for('add_project') }}" method=post class=add_project>
-  <dl>
-    <dt>Name:
-    <dd><input type=text size=30 name=name>
-    <dt>Description:
-    <dd><input type=text size=250 name=description>
-    <dd><input type=submit value=Submit>
-  </dl>
-</form>
+<div>
+  <form action="{{ url_for('add_project') }}" method=post class=add_project>
+    <dl>
+      <dt>Name:
+      <dd><input type=text size=30 name=name>
+      <dt>Summary:
+      <dd><input type=text size=250 name=short>
+      <dt>Description:
+      <dd><input type=text size=250 name=description>
+      <dt>Picture URL:
+      <dd><input type=text size=250 name=picUrl>
+      <dd><input type=submit value=Submit>
+    </dl>
+  </form>
+</div>
+
 {% endblock %}

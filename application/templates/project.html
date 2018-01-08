@@ -6,8 +6,19 @@
 
 {% block main %}
 
-    <h1>
-        {{ project.name }}
-    </h1>
+<h1>
+    {{ project.name }}
+</h1>
+<div>
+    <img class="proj-page-img" src="{{ project.picUrl }}">
+</div>
+<div class="proj-page-about">
+    <h3>
+        About
+    </h3>
+    <p>
+        {{ project.description}}
+    </p>
+</div>
 
 {% endblock %}

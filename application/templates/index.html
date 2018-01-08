@@ -1,30 +1,31 @@
 {% extends "layout.html" %}
 
 {% block title %}
+
 Welcome
+
 {% endblock %}
 
 {% block main %}
+
 <h1>Welcome to CSR Net</h1>
 <h2>Projects</h2>
-<section>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Charity ID</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for project in projects %}
-            <tr>
-                <td><a href="/project/{{ project.id }}">{{ project.name }}</a></td>
-                <td>{{ project.charity }}</td>
-                <td>{{ project.description }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</section>
+<div class="row">
+    {% for project in projects %}
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <a href="/project/{{ project.id }}" class="session-card-link">
+                <div class="card h-100">
+                    <h3 class="card-title">{{ project.name }}</h3>
+                    <img class="card-img-top" src="{{ project.picUrl }}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-charity">{{ project.charity }}</h4>
+                        <p class="card-text">{{ project.short }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}

@@ -179,10 +179,11 @@ def add_project():
         
         # insert form information into database
         db.execute('''
-                   INSERT INTO projects (name, charityId, description)
-                   VALUES (?, ?, ?)
+                   INSERT INTO projects (name, charityId, description, short, picUrl)
+                   VALUES (?, ?, ?, ?, ?)
                    ''', 
-                    [request.form['name'], session['charityId'], request.form['description']]
+                    [request.form['name'], session['charityId'], request.form['description'], 
+                    request.form['short'], request.form['picUrl']]
                    )
         
         # commit changes
