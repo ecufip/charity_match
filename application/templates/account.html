@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-
+Welcome: {{ name }}
 {% endblock %}
 
 {% block main %}
@@ -15,14 +15,24 @@
 </div>
 <div> 
     {% for project in projects %}
-    <a href="/project/{{ project.id }}"><div>
-        <h3>
-                {{ project.name }}
-        </h3>
-        <img class="account-proj-img" src="{{ project.picUrl }}">
-    </div></a>
+        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+            <a href="/project/{{ project.id }}" class="session-card-link">
+                <div class="card h-100">
+                    <h3 class="card-title">{{ project.name }}</h3>
+                    <img class="card-img-top" src="{{ project.picUrl }}" alt="">
+                    <div class="card-body">
+                        <h4 class="card-charity">{{ project.charity }}</h4>
+                        <p class="card-text">{{ project.short }}</p>
+                    </div>
+                    <div class="project-buttons">
+                        <form action="/delete-project/{{ project.id }}" method=post>
+                            <input type="submit" value="Delete project" onclick="return confirm('Are you sure?')"/>
+                        </form>
+                    </div>
+                </div>
+            </a>
+        </div>
     {% endfor %}
-
 </div>
 
 {% endblock %}

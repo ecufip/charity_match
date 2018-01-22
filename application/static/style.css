@@ -32,3 +32,12 @@ a.session-card-link:hover {
     width: 100%;
     height: 500px;
 }
+.proj-desc{
+    height: 100px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.form-header{
+    font-size: 12pt;
+    font-weight: bold;
+}

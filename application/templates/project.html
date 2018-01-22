@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Project
+{{ project.name }}
 {% endblock %}
 
 {% block main %}
@@ -19,6 +19,7 @@
     <p>
         {{ project.description}}
     </p>
+    <p><b>Contact: </b>{{ project.email }}</p>
 </div>
 
 {% endblock %}

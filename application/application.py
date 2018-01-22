@@ -200,16 +200,37 @@ def add_project():
 
 @app.route('/project/<projectId>')
 def project_page(projectId):
-     # open db connection
+
+    # open db connection
     db = get_db()
 
     # return all project where the charity id is the same as the logged in project
-    project = db.execute('SELECT * FROM projects WHERE id = ? ORDER BY name DESC', 
-                            projectId).fetchall()[0]
-    
+    project = db.execute('''
+                         SELECT * , charities.email AS email
+                         FROM projects 
+                         INNER JOIN charities ON projects.charityId =charities.id
+                         WHERE projects.id = ? ORDER BY name DESC
+                         ''', 
+                         projectId).fetchall()[0]
+
     # close db connection
     db.close()
 
     print(project)
 
     return render_template('project.html', project = project)
+
+@app.route('/delete-project/<projectId>', methods=['GET', 'POST'])
+def project_delete(projectId):
+    
+    if request.method == 'POST':
+
+        db = get_db()
+
+        db.execute('DELETE FROM projects WHERE id =?', projectId)
+        
+        db.commit()
+
+        db.close()
+
+        return redirect(url_for('account'))

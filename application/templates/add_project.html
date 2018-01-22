@@ -1,23 +1,33 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    charity
+Add project
 {% endblock %}
 
 {% block main %}
 <div>
-  <form action="{{ url_for('add_project') }}" method=post class=add_project>
-    <dl>
-      <dt>Name:
-      <dd><input type=text size=30 name=name>
-      <dt>Summary:
-      <dd><input type=text size=250 name=short>
-      <dt>Description:
-      <dd><input type=text size=250 name=description>
-      <dt>Picture URL:
-      <dd><input type=text size=250 name=picUrl>
-      <dd><input type=submit value=Submit>
-    </dl>
+  <form action="{{ url_for('add_project') }}" method="post" id="new-project-form" class=add-project>
+    <fieldset>
+        <div class="form-group">
+          <p class="form-header">Name</p>
+          <input class="form-control" type=text size=50 name=name placeholder="Project name">
+        </div>
+        <div class="form-group">
+          <p class="form-header">Overview</p>
+          <input class="form-control" ype=text size=150 name=short placeholder="A one sentence summary">
+        </div>
+        <div class="form-group">
+          <p class="form-header">Description</p>
+          <textarea class="form-control" form="new-project-form" name=description cols=165 rows=10 wrap="soft" placeholder="A longer description"></textarea>
+        </div>
+        <div class="form-group">
+          <p class="form-header">Picture</p>
+          <input class="form-control" type=text size=150 name=picUrl placeholder="URL of the project image">
+        </div>
+        <div class="form-group">
+          <input class="btn btn-default" type=submit value=Submit>
+        </div>
+    </fieldset>
   </form>
 </div>
 
