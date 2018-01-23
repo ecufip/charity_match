@@ -1,6 +1,6 @@
-# CSR match India #
+# CSR match #
 
-An app to match companies with charities in India.
+An app to match companies with charities.
 
 ## To create database ##
 From command line - deletes existing db:
